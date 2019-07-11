@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
+import TagManage from '@/components/TagManage'
+import FileGenerate from '@/components/FileGenerate'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Main',
-      component: Main
+      path: '/TagManage',
+      name: 'TagManage',
+      component: TagManage
+    },
+    {
+      path: '/FileGenerate',
+      name: 'FileGenerate',
+      component: FileGenerate
     }
   ]
 })

@@ -10,12 +10,12 @@
     </Header>
     <Layout>
       <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-        <Menu theme="light" active-name="1" width="auto" :class="menuitemClasses"  >
-          <MenuItem name="1">
+        <Menu theme="light" :active-name="$route.name" width="auto" @on-select="menuClick">
+          <MenuItem name="TagManage">
             <Icon type="ios-paper" />
             标签列表
           </MenuItem>
-          <MenuItem name="2">
+          <MenuItem name="FileGenerate">
             <Icon type="ios-stats" />
             文件生成
           </MenuItem>
@@ -26,7 +26,7 @@
         </Menu>
       </Sider>
       <Content>
-        <router-view/>
+        <router-view></router-view>
       </Content>
     </Layout>
   </div>
@@ -38,19 +38,10 @@
         isCollapsed: false
       }
     },
-    computed: {
-      navigateTo (name) {
-        console.log(name)
-      },
-      menuitemClasses () {
-        return [
-          'menu-item',
-          this.isCollapsed ? 'collapsed-menu' : ''
-        ]
-      }
-    },
     methods: {
-
+      menuClick (name) {
+        this.$router.push(name)
+      }
     }
   }
 </script>
