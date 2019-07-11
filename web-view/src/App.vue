@@ -69,11 +69,12 @@
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
   }
 
-  .ivu-menu-item  {
-    font-color: '#ffffff';
+  .ivu-menu-item:not(.ivu-menu-item-active) {
+    color: #ffffff;
     background: #2d8cf0;
   }
   .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+    color: #ffffff;
     background: #007BBE;
   }
   .menu-item span{
