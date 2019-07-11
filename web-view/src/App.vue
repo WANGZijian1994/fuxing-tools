@@ -73,6 +73,7 @@
     color: #ffffff;
     background: #2d8cf0;
   }
+
   .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
     color: #ffffff;
     background: #007BBE;
