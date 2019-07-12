@@ -1,0 +1,63 @@
+package com.chinadep.fuxing.controller;
+
+import com.chinadep.fuxing.controller.vo.TagFindVO;
+import com.chinadep.fuxing.controller.vo.TagVO;
+import com.chinadep.fuxing.entity.TagDO;
+import com.chinadep.fuxing.service.TagService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2019
+ * </p>
+ *
+ * @author Jovi
+ * @version 1.0
+ */
+@RestController
+@RequestMapping("/tag")
+public class TagController {
+    @Autowired
+    private TagService service;
+    /**
+     * 查询列表(分页)
+     *
+     * @param page 分页对象
+     * @return
+     */
+    @GetMapping
+    public Page<TagVO> list(@PageableDefault Pageable page, TagFindVO tagFindVO) {
+        TagDO params = new TagDO();
+        params.setKey(tagFindVO.getKey());
+
+        Page<TagDO> pages = service.findBy(params,page);
+        Page<TagVO> respS = pages.map(tagDO -> this.convertTagVO(tagDO));
+        return respS;
+    }
+
+    /**
+     * DO转VO
+     * @param source
+     * @return
+     */
+    private TagVO convertTagVO(TagDO source){
+        TagVO resp = new TagVO();
+        if (source != null) {
+            BeanUtils.copyProperties(source, resp);
+        }
+        return resp;
+    }
+}

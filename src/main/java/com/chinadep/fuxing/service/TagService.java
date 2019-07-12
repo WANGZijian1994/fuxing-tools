@@ -1,6 +1,8 @@
 package com.chinadep.fuxing.service;
 
 import com.chinadep.fuxing.entity.TagDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * <p>
@@ -17,5 +19,11 @@ import com.chinadep.fuxing.entity.TagDO;
  * @version 1.0
  */
 public interface TagService extends BaseService<TagDO> {
-
+    /**
+     * 分页查询
+     * @param tag
+     * @param pageable
+     * @return
+     */
+    Page<TagDO> findBy(TagDO tag,Pageable pageable);
 }

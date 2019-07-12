@@ -1,11 +1,8 @@
-package com.chinadep.fuxing.entity;
+package com.chinadep.fuxing.controller.vo;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
-import javax.persistence.*;
 
 /**
  * <p>
@@ -23,30 +20,22 @@ import javax.persistence.*;
  */
 @Getter
 @Setter
-@ToString
-@Accessors(chain = true)
-@Entity(name = "chinadep_tag")
-public class TagDO extends BaseDO {
+@NoArgsConstructor
+public class TagVO {
     /**
      * 物理主键
      */
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     /**
      * 标签key
      */
-    @Column(name = "key")
     private String key;
     /**
      * 标签名称
      */
-    @Column(name = "name")
     private String name;
     /**
      * 类型
      */
-    @Column(name = "type")
     private String type;
 }

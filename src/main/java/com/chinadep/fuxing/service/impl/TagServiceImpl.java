@@ -5,7 +5,14 @@ import com.chinadep.fuxing.repository.BaseRepository;
 import com.chinadep.fuxing.repository.TagRepository;
 import com.chinadep.fuxing.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -35,5 +42,25 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
     @Override
     public BaseRepository getBaseRepository() {
         return repository;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param tag
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<TagDO> findBy(TagDO tag, Pageable pageable) {
+        Page<TagDO> entities = repository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!StringUtils.isEmpty(tag.getKey())){
+                predicates.add(criteriaBuilder.like(root.get("key").as(String.class), "%" + tag.getKey() + "%"));
+            }
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            return criteriaBuilder.and(predicates.toArray(predicateArray));
+        }, pageable);
+        return entities;
     }
 }

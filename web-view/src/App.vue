@@ -19,7 +19,7 @@
             <Icon type="ios-stats" />
             文件生成
           </MenuItem>
-          <MenuItem name="3">
+          <MenuItem name="FileList">
             <Icon type="ios-stats" />
             文件列表
           </MenuItem>
