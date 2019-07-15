@@ -40,31 +40,34 @@ public class FileReaderTest {
     @Test
     public void test()throws IOException, NoSuchAlgorithmException, InvalidKeyException, XmlPullParserException {
         log.info("test");
-        ArrayList<String>contents = new ArrayList<String>();
+        String str = new String();
         // 1. 从minio中获取文件
         // https://github.com/minio/minio-java
         try {
-            MinioClient minioClient = new MinioClient("http://10.101.12.44:9000/minio/", "chinadep",
+            MinioClient minioClient = new MinioClient("http://10.101.12.44:9000/", "chinadep",
                     "chinadep@123");
-            minioClient.statObject("fuxing", "0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
-            InputStream stream = minioClient.getObject("fuxing", "0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
+            minioClient.statObject("fuxing", "res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
+            InputStream stream = minioClient.getObject("fuxing", "res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
             byte[] buf = new byte[16384];
             int bytesRead;
             while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
-                String str = new String(buf, 0, bytesRead, StandardCharsets.UTF_8);
+                str = new String(buf, 0, bytesRead, StandardCharsets.UTF_8);
                 System.out.println(str);
-                contents.add(str);
             }
             stream.close();
 
         } catch (Exception e) {
             System.out.println("Error occurred: " + e);
         }
-    }
 
 
         //2. 解码
-        //com.chinadep.fuxing.utils.Base64Utils.decode(java.util.List<java.lang.String>)
+        Base64Utils b = new Base64Utils();
+        String result = b.decode(str);
+        System.out.println(result);
+    }
+
+
 
 
         /**
