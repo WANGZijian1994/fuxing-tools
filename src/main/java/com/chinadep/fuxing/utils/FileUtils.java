@@ -3,17 +3,16 @@ package com.chinadep.fuxing.utils;
 import com.github.marschall.lineparser.LineParser;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
-import io.minio.MinioClient;
-import java.io.InputStream;
 
 
 /**
@@ -59,13 +58,13 @@ public class FileUtils {
      * @param objectName
      * @return
      */
-    public static List<String> readFromMinio(String chemin){
+    public static List<String> readFromMinio(String objectName){
         String str = new String();
         try {
             MinioClient minioClient = new MinioClient("http://10.101.12.44:9000/", "chinadep",
                     "chinadep@123");
-            minioClient.statObject("fuxing", chemin);
-            InputStream stream = minioClient.getObject("fuxing", chemin);
+            minioClient.statObject("fuxing", objectName);
+            InputStream stream = minioClient.getObject("fuxing", objectName);
             byte[] buf = new byte[16384];
             int bytesRead;
             while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
@@ -79,8 +78,7 @@ public class FileUtils {
 
         Splitter sp = Splitter.on("\n").omitEmptyStrings().trimResults();
         List<String> list = sp.splitToList(str);
-        List<String> result = Base64Utils.decode(list);
 
-        return result;
+        return list;
     }
 }

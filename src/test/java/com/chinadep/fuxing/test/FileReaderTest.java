@@ -2,6 +2,7 @@ package com.chinadep.fuxing.test;
 
 import com.chinadep.fuxing.ChanseyApplication;
 import com.chinadep.fuxing.utils.Base64Utils;
+import com.chinadep.fuxing.utils.FileUtils;
 import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -41,42 +42,16 @@ public class FileReaderTest {
     @Test
     public void test()throws IOException, NoSuchAlgorithmException, InvalidKeyException, XmlPullParserException {
         log.info("test");
-        String str = new String();
+
         // 1. 从minio中获取文件
         // https://github.com/minio/minio-java
-        try {
-            MinioClient minioClient = new MinioClient("http://10.101.12.44:9000/", "chinadep",
-                    "chinadep@123");
-            minioClient.statObject("fuxing", "res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
-            InputStream stream = minioClient.getObject("fuxing", "res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
-            byte[] buf = new byte[16384];
-            int bytesRead;
-            while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
-                str = new String(buf, 0, bytesRead, StandardCharsets.UTF_8);
-                System.out.println(str);
-            }
-            stream.close();
-
-        } catch (Exception e) {
-            System.out.println("Error occurred: " + e);
-        }
-
-        Splitter sp = Splitter.on("\n").omitEmptyStrings().trimResults();
-        List<String> list = sp.splitToList(str);
-        System.out.println(list);
-
+        List<String> list = FileUtils.readFromMinio("res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
         //2. 解码
         List<String> result = Base64Utils.decode(list);
         System.out.println(result);
     }
 
-
-
-
-        /**
-         * MinioClient.getObject() example.
-         */
-    }
+}
 
 
 
