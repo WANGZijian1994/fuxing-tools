@@ -13,6 +13,9 @@ import org.springframework.util.StringUtils;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -62,5 +65,16 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
             return criteriaBuilder.and(predicates.toArray(predicateArray));
         }, pageable);
         return entities;
+    }
+
+    /**
+     * 查询全部
+     *
+     * @return
+     */
+    @Override
+    public Map<String, TagDO> findAllMap() {
+        List<TagDO> list = this.findAll();
+        return list.stream().collect(Collectors.toMap(TagDO::getKey, Function.identity()));
     }
 }
