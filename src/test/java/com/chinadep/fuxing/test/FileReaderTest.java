@@ -1,12 +1,18 @@
 package com.chinadep.fuxing.test;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chinadep.fuxing.ChanseyApplication;
+import com.chinadep.fuxing.service.SourceFileService;
+import com.chinadep.fuxing.service.domain.SourceFileParam;
 import com.chinadep.fuxing.utils.Base64Utils;
 import com.chinadep.fuxing.utils.FileUtils;
+import com.chinadep.fuxing.utils.JsonUtils;
 import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.InputStream;
@@ -39,16 +45,35 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ChanseyApplication.class)
 public class FileReaderTest {
+    @Autowired
+    private SourceFileService fileService;
     @Test
-    public void test()throws IOException, NoSuchAlgorithmException, InvalidKeyException, XmlPullParserException {
-        log.info("test");
+    public void test() {
+        log.info("test...");
 
         // 1. 从minio中获取文件
         // https://github.com/minio/minio-java
-        List<String> list = FileUtils.readFromMinio("res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES");
+        List<String> list = FileUtils.readFromMinio("res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES","\n");
+
         //2. 解码
-        List<String> result = Base64Utils.decode(list);
-        System.out.println(result);
+        list = Base64Utils.decode(list);
+
+        //3. 获取顺序数据
+        List<String>  sortOrderList = FileUtils.readFromMinio("sort/shunxu.csv",",");
+
+        //转换json对象
+        List<JSONObject> jsonObjects = JsonUtils.parseObject(list);
+
+        //工单号
+        String orderId = "JON20190709000001709";
+        //批次号
+        String batchNo = "20190710104040";
+        //id类型
+        String idType = "ID010105";
+        SourceFileParam param = new SourceFileParam();
+        param.setJobId(orderId).setBatchId(batchNo).setIdType(idType);
+        //4. 创建SOURCE文件
+        fileService.createSourceFile(param,jsonObjects,sortOrderList);
     }
 
 }

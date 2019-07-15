@@ -31,6 +31,7 @@ public interface TagService extends BaseService<TagDO> {
 
     /**
      * 查询全部
+     * key 为标签编码 value为标签实体
      * @return
      */
     Map<String,TagDO> findAllMap();

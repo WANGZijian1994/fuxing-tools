@@ -18,13 +18,13 @@ public class TypeDef {
     /**
      * 字符串类型
      */
-    public static String TYPE_STRING = "String";
+    public final static String TYPE_STRING = "String";
     /**
      * 数组类型
      */
-    public static String TYPE_ARRAY = "Array";
+    public final static String TYPE_ARRAY = "Array";
     /**
      * 其他
      */
-    public static String TYPE_OTHER = "Other";
+    public final static String TYPE_OTHER = "Other";
 }

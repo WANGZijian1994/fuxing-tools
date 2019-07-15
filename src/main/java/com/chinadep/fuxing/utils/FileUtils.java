@@ -31,6 +31,23 @@ import java.util.List;
  */
 @Slf4j
 public class FileUtils {
+    /**
+     * minio地址
+     */
+    private static final String MINIO_URL = "http://10.101.12.44:9000/";
+    /**
+     * minio access key
+     */
+    private static final String MINIO_ACCESS_KEY = "chinadep";
+    /**
+     * minio secret key
+     */
+    private static final String MINIO_SECRET_KEY = "chinadep@123";
+    /**
+     * minio 桶名称
+     */
+    private static final String MINIO_BUCKET = "fuxing";
+
 
     /**
      * 读取文件
@@ -56,15 +73,15 @@ public class FileUtils {
     /**
      * 从minio中文件中的数据
      * @param objectName
+     * @param splitterStr
      * @return
      */
-    public static List<String> readFromMinio(String objectName){
+    public static List<String> readFromMinio(String objectName,String splitterStr){
         String str = new String();
         try {
-            MinioClient minioClient = new MinioClient("http://10.101.12.44:9000/", "chinadep",
-                    "chinadep@123");
-            minioClient.statObject("fuxing", objectName);
-            InputStream stream = minioClient.getObject("fuxing", objectName);
+            MinioClient minioClient = new MinioClient(MINIO_URL, MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
+            minioClient.statObject(MINIO_BUCKET, objectName);
+            InputStream stream = minioClient.getObject(MINIO_BUCKET, objectName);
             byte[] buf = new byte[16384];
             int bytesRead;
             while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
@@ -73,10 +90,10 @@ public class FileUtils {
             stream.close();
 
         } catch (Exception e) {
-            System.out.println("Error occurred: " + e);
+            log.info("Error occurred: {}" + e.getMessage());
         }
 
-        Splitter sp = Splitter.on("\n").omitEmptyStrings().trimResults();
+        Splitter sp = Splitter.on(splitterStr).omitEmptyStrings().trimResults();
         List<String> list = sp.splitToList(str);
 
         return list;

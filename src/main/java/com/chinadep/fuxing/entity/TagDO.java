@@ -35,6 +35,11 @@ public class TagDO extends BaseDO {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     /**
+     * 标签编码
+     */
+    @Column(name = "TAG_NO")
+    private String tagNo;
+    /**
      * 标签key
      */
     @Column(name = "key")

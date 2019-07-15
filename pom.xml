@@ -22,6 +22,7 @@
         <guava.version>23.0</guava.version>
         <parser.version>0.5.0</parser.version>
         <minio.version>6.0.8</minio.version>
+        <fastjson.version>1.2.16</fastjson.version>
     </properties>
 
     <dependencies>
@@ -62,6 +63,12 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
     </dependencies>
     <!-- 添加spring-boot的maven插件 -->

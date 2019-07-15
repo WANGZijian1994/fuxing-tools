@@ -69,12 +69,12 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
 
     /**
      * 查询全部
-     *
+     * key 为标签编码 value为标签实体
      * @return
      */
     @Override
     public Map<String, TagDO> findAllMap() {
         List<TagDO> list = this.findAll();
-        return list.stream().collect(Collectors.toMap(TagDO::getKey, Function.identity()));
+        return list.stream().collect(Collectors.toMap(TagDO::getTagNo, Function.identity()));
     }
 }
