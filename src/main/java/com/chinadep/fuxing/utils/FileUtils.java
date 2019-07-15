@@ -48,4 +48,13 @@ public class FileUtils {
         }
         return list;
     }
+
+    /**
+     * 从minio中文件中的数据
+     * @param objectName
+     * @return
+     */
+    public static List<String> readFromMinio(String objectName){
+        return null;
+    }
 }
