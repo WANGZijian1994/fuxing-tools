@@ -4,6 +4,8 @@ import com.chinadep.fuxing.entity.TagDO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
+
 /**
  * <p>
  * Title:
@@ -26,4 +28,10 @@ public interface TagService extends BaseService<TagDO> {
      * @return
      */
     Page<TagDO> findBy(TagDO tag,Pageable pageable);
+
+    /**
+     * 查询全部
+     * @return
+     */
+    Map<String,TagDO> findAllMap();
 }
