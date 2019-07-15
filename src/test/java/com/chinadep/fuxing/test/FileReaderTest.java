@@ -2,6 +2,7 @@ package com.chinadep.fuxing.test;
 
 import com.chinadep.fuxing.ChanseyApplication;
 import com.chinadep.fuxing.utils.Base64Utils;
+import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import io.minio.MinioClient;
 import io.minio.errors.MinioException;
 import java.util.ArrayList;
+import java.util.List;
 
 /* <p>
  * Title:
@@ -60,10 +62,12 @@ public class FileReaderTest {
             System.out.println("Error occurred: " + e);
         }
 
+        Splitter sp = Splitter.on("\n").omitEmptyStrings().trimResults();
+        List<String> list = sp.splitToList(str);
+        System.out.println(list);
 
         //2. 解码
-        Base64Utils b = new Base64Utils();
-        String result = b.decode(str);
+        List<String> result = Base64Utils.decode(list);
         System.out.println(result);
     }
 

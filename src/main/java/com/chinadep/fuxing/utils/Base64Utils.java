@@ -50,7 +50,7 @@ public class Base64Utils {
     public static String decode(String str){
         String decodeStr = "";
         try {
-            decodeStr = new String(decoder.decode(str), StandardCharsets.UTF_8);
+            decodeStr = new String(decoder.decode(str.trim()), StandardCharsets.UTF_8);
         }catch (Exception e){
             e.printStackTrace();
             log.error(e.getMessage());
