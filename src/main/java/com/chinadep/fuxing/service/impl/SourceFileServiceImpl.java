@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +62,23 @@ public class SourceFileServiceImpl implements SourceFileService {
     private TagService tagService;
 
     /**
+     * minio地址
+     */
+    private static final String MINIO_URL = "http://10.101.12.44:9000/";
+    /**
+     * minio access key
+     */
+    private static final String MINIO_ACCESS_KEY = "chinadep";
+    /**
+     * minio secret key
+     */
+    private static final String MINIO_SECRET_KEY = "chinadep@123";
+    /**
+     * minio 桶名称
+     */
+    private static final String MINIO_BUCKET = "fuxing";
+
+    /**
      * 从文件中获取数据
      *
      * @param param    参数
@@ -79,58 +95,40 @@ public class SourceFileServiceImpl implements SourceFileService {
         }
         // 文件路径 生成文件
         String fileName = param.getJobId()+"_"+param.getIdType()+"_"+param.getBatchId()+"_"+"0000"+SOURCE_SUFFIX;
-        String filePath = sourcePath + fileName;
-        File file = new File(filePath);
-        try {
-            if(file.exists()){
-                file.delete();
+
+        StringBuilder fileBuilder = new StringBuilder();
+        for(JSONObject object:list){
+            StringBuilder sb = new StringBuilder();
+            Boolean flag = false;
+            //如果有数据 则+1
+            int count = 0;
+
+            String XID = StringUtils.hasText(object.getString("xid")) ? object.getString("xid"):"null";
+            sb.append(XID).append(SEPARATO);
+            for(TagDO tagDO : tagSortedList){
+               switch (tagDO.getType()){
+                   case TypeDef.TYPE_STRING:
+                       flag = appendString(sb,object,tagDO.getKey());
+                       if(flag){
+                           count++;
+                       }
+                       break;
+                   case TypeDef.TYPE_ARRAY:
+                       flag = appendArray(sb,object,tagDO.getKey());
+                       if(flag){
+                           count++;
+                       }
+                       break;
+               }
             }
-            file.createNewFile();
-            FileOutputStream out=new FileOutputStream(file,true);
-            for(JSONObject object:list){
-                StringBuilder sb = new StringBuilder();
-                Boolean flag = false;
-                //如果有数据 则+1
-                int count = 0;
+            sb.append("\n");
 
-                String XID = StringUtils.hasText(object.getString("xid")) ? object.getString("xid"):"null";
-                sb.append(XID).append(SEPARATO);
-                for(TagDO tagDO : tagSortedList){
-                   switch (tagDO.getType()){
-                       case TypeDef.TYPE_STRING:
-                           flag = appendString(sb,object,tagDO.getKey());
-                           if(flag){
-                               count++;
-                           }
-                           break;
-                       case TypeDef.TYPE_ARRAY:
-                           flag = appendArray(sb,object,tagDO.getKey());
-                           if(flag){
-                               count++;
-                           }
-                           break;
-                   }
-                }
-                sb.append("\n");
-
-                if(count > 0){
-                    out.write(sb.toString().getBytes("utf-8"));
-                }
-
+            if(count > 0){
+                fileBuilder.append(sb);
             }
-        }catch (IOException e){
-            e.printStackTrace();
-            log.error(e.getMessage());
         }
-        try {
-            InputStream in = new FileInputStream(file);
-            log.info(fileName);
-            //上传至SOURCE
-            FileUtils.uploadToMinio(filePath,in,fileName);
-        }catch (IOException e){
-            e.printStackTrace();
-            log.error(e.getMessage());
-        }
+        String objectName = "source/"+fileName;
+        FileUtils.uploadToMinio(fileBuilder,objectName);
 
     }
 

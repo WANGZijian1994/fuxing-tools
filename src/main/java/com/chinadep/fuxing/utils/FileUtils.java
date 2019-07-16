@@ -108,12 +108,14 @@ public class FileUtils {
      * @param objectName10
      * @return
      */
-    public static void uploadToMinio(String filePath,InputStream  in,String objectName){
-        String str = new String();
+    public static void uploadToMinio(StringBuilder content,String objectName){
+
         try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8));
             MinioClient minioClient = new MinioClient(MINIO_URL, MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
-            minioClient.statObject(MINIO_BUCKET, objectName);
-            minioClient.putObject(MINIO_BUCKET, objectName, in, Long.valueOf(in.available()), null, null, "application/octet-stream");
+            // Create an object
+            minioClient.putObject(MINIO_BUCKET, objectName, bais, bais.available(), "application/octet-stream");
+            bais.close();
         } catch (Exception e) {
             log.info("Error occurred: {}" + e.getMessage());
         }
