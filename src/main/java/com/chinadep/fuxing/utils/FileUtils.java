@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -47,6 +48,8 @@ public class FileUtils {
      * minio 桶名称
      */
     private static final String MINIO_BUCKET = "fuxing";
+
+    private static MinioClient minioClient;
 
 
     /**
@@ -98,4 +101,22 @@ public class FileUtils {
 
         return list;
     }
+
+    /**
+     * 上传至minio
+     * @param objectName
+     * @param objectName10
+     * @return
+     */
+    public static void uploadToMinio(String filePath,InputStream  in,String objectName){
+        String str = new String();
+        try {
+            MinioClient minioClient = new MinioClient(MINIO_URL, MINIO_ACCESS_KEY, MINIO_SECRET_KEY);
+            minioClient.statObject(MINIO_BUCKET, objectName);
+            minioClient.putObject(MINIO_BUCKET, objectName, in, Long.valueOf(in.available()), null, null, "application/octet-stream");
+        } catch (Exception e) {
+            log.info("Error occurred: {}" + e.getMessage());
+        }
+    }
+
 }

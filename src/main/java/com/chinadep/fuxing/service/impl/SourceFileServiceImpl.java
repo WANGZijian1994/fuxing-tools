@@ -7,6 +7,7 @@ import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.service.SourceFileService;
 import com.chinadep.fuxing.service.TagService;
 import com.chinadep.fuxing.service.domain.SourceFileParam;
+import com.chinadep.fuxing.utils.FileUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +78,8 @@ public class SourceFileServiceImpl implements SourceFileService {
             tagSortedList.add(tagMap.get(tagNo));
         }
         // 文件路径 生成文件
-        String filePath = sourcePath + param.getJobId()+"_"+param.getIdType()+"_"+param.getBatchId()+"_"+"0000"+SOURCE_SUFFIX;
+        String fileName = param.getJobId()+"_"+param.getIdType()+"_"+param.getBatchId()+"_"+"0000"+SOURCE_SUFFIX;
+        String filePath = sourcePath + fileName;
         File file = new File(filePath);
         try {
             if(file.exists()){
@@ -122,6 +122,16 @@ public class SourceFileServiceImpl implements SourceFileService {
             e.printStackTrace();
             log.error(e.getMessage());
         }
+        try {
+            InputStream in = new FileInputStream(file);
+            log.info(fileName);
+            //上传至SOURCE
+            FileUtils.uploadToMinio(filePath,in,fileName);
+        }catch (IOException e){
+            e.printStackTrace();
+            log.error(e.getMessage());
+        }
+
     }
 
     /**
