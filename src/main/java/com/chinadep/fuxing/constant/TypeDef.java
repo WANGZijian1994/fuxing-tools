@@ -20,6 +20,10 @@ public class TypeDef {
      */
     public final static String TYPE_STRING = "String";
     /**
+     * MAP类型
+     */
+    public final static String TYPE_MAP = "Map";
+    /**
      * 数组类型
      */
     public final static String TYPE_ARRAY = "Array";

@@ -53,27 +53,30 @@ public class FileReaderTest {
 
         // 1. 从minio中获取文件
         // https://github.com/minio/minio-java
-        List<String> list = FileUtils.readFromMinio("res/0000529_JON20190709000001709_ID010105_20190710104040_0000.RES","\n");
+        List<String> list = FileUtils.readFile("C:\\Users\\chinadep\\Desktop\\0000529_JON20190715000001742_ID010105_20190717114240_0000.RES");
 
         //2. 解码
         list = Base64Utils.decode(list);
 
         //3. 获取顺序数据
-        List<String>  sortOrderList = FileUtils.readFromMinio("sort/shunxu.csv",",");
+        List<String>  sortOrderList = FileUtils.readFile("C:\\Users\\chinadep\\Desktop\\0000529_JON20190715000001742_ID010105_20190717114240_0000.SORT");
+
+        Splitter sp = Splitter.on(",").omitEmptyStrings().trimResults();
+        List<String> sortList = sp.splitToList(sortOrderList.get(0));
 
         //转换json对象
         List<JSONObject> jsonObjects = JsonUtils.parseObject(list);
-
+        //0000529_JON20190715000001742_ID010105_20190717114240_0000.RES
         //工单号
-        String orderId = "JON20190709000001709";
+        String orderId = "JON20190715000001742";
         //批次号
-        String batchNo = "20190710104040";
+        String batchNo = "20190717114240";
         //id类型
         String idType = "ID010105";
         SourceFileParam param = new SourceFileParam();
         param.setJobId(orderId).setBatchId(batchNo).setIdType(idType);
         //4. 创建SOURCE文件
-        fileService.createSourceFile(param,jsonObjects,sortOrderList);
+        fileService.createSourceFile(param,jsonObjects,sortList);
     }
 
 }

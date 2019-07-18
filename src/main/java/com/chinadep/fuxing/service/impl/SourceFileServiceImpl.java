@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,22 +100,27 @@ public class SourceFileServiceImpl implements SourceFileService {
         StringBuilder fileBuilder = new StringBuilder();
         for(JSONObject object:list){
             StringBuilder sb = new StringBuilder();
-            Boolean flag = false;
             //如果有数据 则+1
             int count = 0;
 
             String XID = StringUtils.hasText(object.getString("xid")) ? object.getString("xid"):"null";
             sb.append(XID).append(SEPARATO);
             for(TagDO tagDO : tagSortedList){
-               switch (tagDO.getType()){
+                switch (tagDO.getType()){
                    case TypeDef.TYPE_STRING:
-                       flag = appendString(sb,object,tagDO.getKey());
+                       boolean flag = appendString(sb,object,tagDO.getKey());
                        if(flag){
                            count++;
                        }
                        break;
                    case TypeDef.TYPE_ARRAY:
                        flag = appendArray(sb,object,tagDO.getKey());
+                       if(flag){
+                           count++;
+                       }
+                       break;
+                   case TypeDef.TYPE_MAP:
+                       flag = appendMap(sb,object,tagDO.getKey());
                        if(flag){
                            count++;
                        }
@@ -168,6 +174,33 @@ public class SourceFileServiceImpl implements SourceFileService {
             return false;
         }
         String str = Joiner.on(',').join(array);
+        sb.append(str).append("|");
+        return true;
+    }
+
+    /**
+     * 添加MAP
+     * @param sb
+     * @param o
+     * @param key
+     */
+    private static boolean appendMap(StringBuilder sb,JSONObject o,String key){
+        String value = o.getString(key);
+        Map<String,String> map = JSONObject.parseObject(value,Map.class);
+        if(map==null){
+            sb.append("null").append("|");
+            return false;
+        }
+        if(map.size()==0){
+            sb.append("null").append("|");
+            return false;
+        }
+        List<String> list = Lists.newArrayList();
+        for(String keyStr:map.keySet()){
+            String valueStr = map.get(keyStr);
+            list.add(keyStr+":"+valueStr);
+        }
+        String str = Joiner.on(',').join(list);
         sb.append(str).append("|");
         return true;
     }

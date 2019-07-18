@@ -53,6 +53,7 @@ public class Base64Utils {
             decodeStr = new String(decoder.decode(str.trim()), StandardCharsets.UTF_8);
         }catch (Exception e){
             e.printStackTrace();
+            log.error(str);
             log.error(e.getMessage());
         }
         return decodeStr;
