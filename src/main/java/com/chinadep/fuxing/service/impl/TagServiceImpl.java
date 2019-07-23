@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,5 +77,20 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
     public Map<String, TagDO> findAllMap() {
         List<TagDO> list = this.findAll();
         return list.stream().collect(Collectors.toMap(TagDO::getTagNo, Function.identity()));
+    }
+
+    /**
+     * 保存标签数据
+     *
+     * @param file
+     * @return
+     */
+    @Override
+    public void saveAll(File file) {
+        // 1. 读取excel中的文件
+        //https://mp.weixin.qq.com/s/BZyXnCzVoKU6a9jTxYf_Vg
+        // 2. 读取后的转换成TagDO,并存入list中
+        //com.chinadep.fuxing.entity.TagDO
+        // 3. 删除chinadep_tag中的所有数据，并保存所有list
     }
 }
