@@ -16,15 +16,15 @@ package com.chinadep.fuxing.constant;
  */
 public class TypeDef {
     /**
-     * 字符串类型
+     * 字符串类型 - 0
      */
     public final static String TYPE_STRING = "String";
     /**
-     * MAP类型
+     * MAP类型 - 2
      */
     public final static String TYPE_MAP = "Map";
     /**
-     * 数组类型
+     * 数组类型 - 4
      */
     public final static String TYPE_ARRAY = "Array";
     /**
