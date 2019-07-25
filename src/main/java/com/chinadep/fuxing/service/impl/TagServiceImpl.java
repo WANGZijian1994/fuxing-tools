@@ -1,9 +1,9 @@
 package com.chinadep.fuxing.service.impl;
 
-import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.repository.BaseRepository;
 import com.chinadep.fuxing.repository.TagRepository;
 import com.chinadep.fuxing.service.TagService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,6 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
 
     @Autowired
     private TagRepository repository;
-
     /**
      * 获取基础仓储类
      *
@@ -82,15 +81,8 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
     /**
      * 保存标签数据
      *
-     * @param file
+     * @param
      * @return
      */
-    @Override
-    public void saveAll(File file) {
-        // 1. 读取excel中的文件
-        //https://mp.weixin.qq.com/s/BZyXnCzVoKU6a9jTxYf_Vg
-        // 2. 读取后的转换成TagDO,并存入list中
-        //com.chinadep.fuxing.entity.TagDO
-        // 3. 删除chinadep_tag中的所有数据，并保存所有list
-    }
+
 }

@@ -1,10 +1,8 @@
 package com.chinadep.fuxing.service;
 
-import com.chinadep.fuxing.entity.TagDO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.io.File;
 import java.util.Map;
 
 /**
@@ -41,5 +39,5 @@ public interface TagService extends BaseService<TagDO> {
      * 保存标签数据
      * @return
      */
-    void saveAll(File file);
+
 }

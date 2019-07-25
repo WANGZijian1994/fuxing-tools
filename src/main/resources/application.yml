@@ -1,22 +1,19 @@
 server:
   port: 8889
-  servlet:
-    context-path: /chansey
+
+
 spring:
   application:
     name: fuxing-tools
   datasource:
-    url: jdbc:mysql://10.101.12.44:3306/fuxing-tools?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://localhost:3306/Zijian_Test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: chinadep@123
+    password: Ajax2020
     driverClassName: com.mysql.jdbc.Driver
   jpa:
     database: MYSQL
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
-chansey:
-  file:
-    sourcePath: 'D:\\file\\sourcePath\\'

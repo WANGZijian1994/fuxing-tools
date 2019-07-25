@@ -3,7 +3,6 @@ package com.chinadep.fuxing.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinadep.fuxing.constant.TypeDef;
-import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.service.SourceFileService;
 import com.chinadep.fuxing.service.TagService;
 import com.chinadep.fuxing.service.domain.SourceFileParam;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

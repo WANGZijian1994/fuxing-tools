@@ -11,6 +11,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
+import com.alibaba.excel.metadata.BaseRowModel;
+
 /**
  * <p>
  * Title: 基础entity类
@@ -31,7 +33,7 @@ import java.util.Date;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(BaseEntityListener.class)
-public class BaseDO {
+public class BaseDO extends BaseRowModel{
     /**
      * 首次录入时间
      */

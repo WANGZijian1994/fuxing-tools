@@ -78,7 +78,6 @@ public class FileReaderTest {
         //4. 创建SOURCE文件
         fileService.createSourceFile(param,jsonObjects,sortList);
     }
-
 }
 
 

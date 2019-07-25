@@ -1,6 +1,5 @@
 package com.chinadep.fuxing.repository;
 
-import com.chinadep.fuxing.entity.TagDO;
 import org.springframework.stereotype.Repository;
 
 /**
