@@ -3,6 +3,7 @@ package com.chinadep.fuxing.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinadep.fuxing.constant.TypeDef;
+import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.service.SourceFileService;
 import com.chinadep.fuxing.service.TagService;
 import com.chinadep.fuxing.service.domain.SourceFileParam;
@@ -87,7 +88,7 @@ public class SourceFileServiceImpl implements SourceFileService {
     @Override
     public void createSourceFile(SourceFileParam param, List<JSONObject> list, List<String> sortList) {
         //整理标签 按照sortList的顺序对整个的tag进行排序
-        Map<String,TagDO> tagMap = tagService.findAllMap();
+        Map<String, TagDO> tagMap = tagService.findAllMap();
         List<TagDO> tagSortedList = Lists.newLinkedList();
         for(String tagNo:sortList){
             tagSortedList.add(tagMap.get(tagNo));

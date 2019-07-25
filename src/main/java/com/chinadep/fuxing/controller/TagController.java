@@ -2,17 +2,15 @@ package com.chinadep.fuxing.controller;
 
 import com.chinadep.fuxing.controller.vo.TagFindVO;
 import com.chinadep.fuxing.controller.vo.TagVO;
+import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.service.TagService;
-import com.chinadep.fuxing.service.impl.ExcelServicelmpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.FileNotFoundException;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -34,13 +32,13 @@ public class TagController {
     @Autowired
     private TagService service;
 
-    @Autowired
-    private ExcelServicelmpl excelServiceImpl;
+//    @Autowired
+//    private ExcelServicelmpl excelServiceImpl;
 
-    @PutMapping(value = "/chinadep_tag_1/add")
-    public List<TagDO> renouveller()throws FileNotFoundException {
-        return excelServiceImpl.configurerExcelEnTag();
-    }
+//    @PutMapping(value = "/chinadep_tag_1/add")
+//    public List<TagDO> renouveller()throws FileNotFoundException {
+//        return excelServiceImpl.configurerExcelEnTag();
+//    }
 
     /**
      * 查询列表(分页)

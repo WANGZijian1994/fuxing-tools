@@ -1,5 +1,6 @@
 package com.chinadep.fuxing.service.impl;
 
+import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.repository.BaseRepository;
 import com.chinadep.fuxing.repository.TagRepository;
 import com.chinadep.fuxing.service.TagService;
@@ -78,11 +79,5 @@ public class TagServiceImpl extends BaseServiceImpl<TagDO> implements TagService
         return list.stream().collect(Collectors.toMap(TagDO::getTagNo, Function.identity()));
     }
 
-    /**
-     * 保存标签数据
-     *
-     * @param
-     * @return
-     */
 
 }

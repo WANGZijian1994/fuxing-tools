@@ -1,14 +1,12 @@
 server:
   port: 8889
-
-
 spring:
   application:
     name: fuxing-tools
   datasource:
-    url: jdbc:mysql://localhost:3306/Zijian_Test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://10.101.12.44:3306/fuxing-tools?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: Ajax2020
+    password: chinadep@123
     driverClassName: com.mysql.jdbc.Driver
   jpa:
     database: MYSQL
@@ -17,3 +15,6 @@ spring:
       ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+chansey:
+  file:
+    sourcePath: 'D:\\file\\sourcePath\\'
