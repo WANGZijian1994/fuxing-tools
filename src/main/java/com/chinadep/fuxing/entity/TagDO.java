@@ -26,7 +26,7 @@ public class TagDO extends BaseDO {
      */
     @Column(name = "tagNo")
     private String tagNo;
-    /**k
+    /**
      * 标签名称
      */
     @Column(name = "name")

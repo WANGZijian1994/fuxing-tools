@@ -2,6 +2,7 @@ package com.chinadep.fuxing.service.impl;
 
 import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.metadata.Sheet;
+import com.chinadep.fuxing.constant.TypeDef;
 import com.chinadep.fuxing.entity.TagDO;
 import com.chinadep.fuxing.repository.TagRepository;
 import com.chinadep.fuxing.service.ExcelService;
@@ -49,33 +50,35 @@ public class ExcelServiceImpl implements ExcelService {
      */
     @Override
     public void importTag(String filePath) {
-        List<Object>l = this.readExcel(filePath);
+        List<Object> l = this.readExcel(filePath);
         List<TagDO> list = Lists.newArrayList();
-        for(int i = 1;i<l.size();i++){
-            String str = l.get(i).toString();
-            str = str.replace("[","");
-            str = str.replace("]","");
+        for(int i = 0;i<l.size();i++){
+            List<String> row = (List<String>)l.get(i);
 
-            TagDO tg = new TagDO();
-            long lo = (long) i;
-            tg.setId(lo);
-            tg.setTagNo(Character.toString(str.charAt(0)));
-            int k = str.indexOf(',',2);
-            tg.setName(str.substring(2,k));
-            tg.setKey(str.substring(++k,str.indexOf(',',++k)));
-            String fin = Character.toString(str.charAt(str.length()-1));
-            if(fin.equals("0")){
-                tg.setType("String");
+            String tagNo = row.get(0);
+            String name = row.get(1);
+            String key = row.get(2);
+            String typeStr = row.get(3);
+            String type = "";
+            switch (typeStr){
+                case "0":
+                    type = TypeDef.TYPE_STRING;
+                    break;
+                case "2":
+                    type = TypeDef.TYPE_MAP;
+                    break;
+                case "4":
+                    type = TypeDef.TYPE_ARRAY;
+                    break;
+                default:
+                    type = TypeDef.TYPE_OTHER;
             }
-            if(fin.equals("2")){
-                tg.setType("Map");
-            }
-            if(fin.equals("4")){
-                tg.setType("Array");
-            }
-            list.add(tg);
+
+            TagDO tagDO = new TagDO();
+            tagDO.setTagNo(tagNo).setKey(key).setType(type).setName(name);
+            list.add(tagDO);
         }
-
+        tagRepository.deleteAll();
         tagRepository.saveAll(list);
     }
 
@@ -88,7 +91,7 @@ public class ExcelServiceImpl implements ExcelService {
     private List<Object> readExcel(String filePath) {
         try {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
-            List<Object> data = EasyExcelFactory.read(inputStream, new Sheet(1, 0));
+            List<Object> data = EasyExcelFactory.read(inputStream, new Sheet(1, 1));
             return data;
         }catch (FileNotFoundException e){
             e.printStackTrace();
