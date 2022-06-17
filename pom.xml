@@ -22,7 +22,7 @@
         <guava.version>23.0</guava.version>
         <parser.version>0.5.0</parser.version>
         <minio.version>6.0.8</minio.version>
-        <fastjson.version>1.2.16</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
